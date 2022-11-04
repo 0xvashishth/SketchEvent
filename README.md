@@ -1,2 +1,2 @@
-# Evento
+# SketchEvent
 Event Management Site
