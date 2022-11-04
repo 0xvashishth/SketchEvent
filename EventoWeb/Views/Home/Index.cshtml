@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="p-3 mt-4">
+<h1 class="text-primary text-dark">Welcome To Evento</h1>
+</div>
+<div class="d-none d-md-block">
+        <a class="btn btn-primary" asp-controller="Event" asp-action="Index"><i class="bi bi-list"></i>&nbsp;View All Event</a>
+</div>
+<div class="border p-3 mt-1">
+        <h2 class="row pb-2">
+            <div class="col-8 pb-2">
+                <h2 class="text-primary">Create Your Event For Free</h2>
+            </div>
+            <div class="col-4">
+                <a class="btn btn-primary" asp-controller="Event" asp-action="Create"><i class="bi bi-plus-circle"></i>&nbsp;Create Event</a>
+            </div>
+            <hr/>
+        </h2>
+    <div class="text-center p-3 row d-flex">
+        <div class="card border-primary mb-3">
+          <div class="card-header">Evento Feature #1</div>
+          <div class="card-body">
+            <h4 class="card-title">Create Unlimited Events</h4>
+            <p class="card-text">Evento provides unlimited events on creating the account in Evento.</p>
+          </div>
+        </div>
+        <div class="card border-primary mb-3">
+          <div class="card-header">Evento Feature #2</div>
+          <div class="card-body">
+            <h4 class="card-title">Get All Registrations In One Click</h4>
+            <p class="card-text">You will be able to access all the registration that are done in your respective events.</p>
+          </div>
+        </div>
+        <div class="card border-primary mb-3">
+          <div class="card-header">Evento Feature #3</div>
+          <div class="card-body">
+            <h4 class="card-title">Get Email Service</h4>
+            <p class="card-text">Send Emails to those who are registered in the events with just one click.You can configure the message according to the mail.</p>
+          </div>
+        </div>
+        <div class="card border-primary mb-3">
+          <div class="card-header">Evento Feature #4</div>
+          <div class="card-body">
+            <h4 class="card-title">Much More</h4>
+            <p class="card-text">Get all other features and get other features on signing up to the Evento.</p>
+          </div>
+        </div>
+    </div>
+    <div class="row m-5">
+        <a class="btn btn-primary" asp-controller="Event" asp-action="Index"><i class="bi bi-list"></i>&nbsp;View All Event</a>
+    </div>
+</div>

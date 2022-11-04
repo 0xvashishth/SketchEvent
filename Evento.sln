@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventoWeb", "EventoWeb\EventoWeb.csproj", "{AE53A1A5-6EB3-483A-8E0B-861EFE909CB4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BulkyBookWeb", "..\BulkyBook\BulkyBookWeb\BulkyBookWeb.csproj", "{A4C97EA8-7C03-443B-A074-5E0D2CA6002A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE53A1A5-6EB3-483A-8E0B-861EFE909CB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE53A1A5-6EB3-483A-8E0B-861EFE909CB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE53A1A5-6EB3-483A-8E0B-861EFE909CB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE53A1A5-6EB3-483A-8E0B-861EFE909CB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4C97EA8-7C03-443B-A074-5E0D2CA6002A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4C97EA8-7C03-443B-A074-5E0D2CA6002A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4C97EA8-7C03-443B-A074-5E0D2CA6002A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4C97EA8-7C03-443B-A074-5E0D2CA6002A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {166304FA-C4E9-45F0-821B-BC9D75774CEF}
+	EndGlobalSection
+EndGlobal

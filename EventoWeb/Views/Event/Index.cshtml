@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Event>
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2>Event List</h2>
+        </div>
+        <div class="col-6">
+            <a asp-controller="Event" asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle"></i>&nbsp;Create Event</a>
+        </div>
+    </div>
+
+</div>
+
+
+<table class="table table-responsive table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th class="text-light">
+                Event Name
+            </th>
+ @*           <th class="text-light">
+                Event Description
+            </th>*@
+            <th class="text-light">
+                Event Venue
+            </th>
+            <th class="text-light">
+                StartDate
+            </th>
+            <th class="text-light">
+                EndDate
+            </th>
+            <th class="text-light">
+                Go To Event
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr class="bg-dark">
+                <td class="text-light">
+                    @obj.Name
+                </td>
+                @*<td class="text-light">
+                    @obj.Description
+                </td>*@
+                <td class="text-light">
+                    @obj.Venue
+                </td>
+                <td class="text-light">
+                    @obj.StartDate
+                </td>
+                <td class="text-light">
+                    @obj.EndDate
+                </td>
+                @*<td class="text-light">
+                    @if(obj.CreatedBy == null)
+                    {
+                    }
+                    else{
+                        @obj.CreatedBy
+                    }
+                </td>*@
+                <td>
+                    <a class="btn btn-success" asp-controller="Event" asp-action="Details" asp-route-id="@obj.EventId" >View Event</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
