@@ -25,8 +25,17 @@
               <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" asp-area="" asp-controller="Event" asp-action="Index">Events</a>
+              <a class="nav-link" asp-area="" asp-controller="Event" asp-action="Index">View Events</a>
             </li>
+                 @{
+                        if (Context.Request.Cookies["UserName"]?.ToString() != null)
+                    {
+                        <li class="nav-item">
+                        <a class="nav-link" asp-area="" asp-controller="Event" asp-action="Create">Create Event</a>
+                        </li>
+                    }
+                }        
+
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">More</a>
               <div class="dropdown-menu">

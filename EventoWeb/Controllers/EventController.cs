@@ -139,7 +139,11 @@ namespace EventoWeb.Controllers
         // GET: EventController/Delete/5
         public ActionResult Delete(int id)
         {
-            var objEvent = _eventRepo.GetEventById(id);
+            Event? objEvent = _eventRepo.GetEventById(id);
+            if (objEvent == null)
+            {
+                return RedirectToAction("Index");
+            }
             if (IsOwner(objEvent.CreatedById.ToString()) == true && IsLoggedIn())
                 return View(objEvent);
             else

@@ -1,6 +1,7 @@
 using EventoWeb.Data;
 using EventoWeb.Models;
 using Microsoft.EntityFrameworkCore;
+using Westwind.AspNetCore.Markdown;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 builder.Services.AddScoped<IEventRepository, SqlEventRepository>();
 builder.Services.AddScoped<IUserRepository, SqlUserRepository>();
 builder.Services.AddRazorPages();
+builder.Services.AddMarkdown();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,6 +25,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMarkdown();
 app.UseStaticFiles();
 
 app.UseRouting();
