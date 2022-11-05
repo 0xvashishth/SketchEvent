@@ -19,8 +19,9 @@ namespace EventoWeb.Models
         [Required]
         public DateTime EndDate { get; set; }
         [Required]
-        public User CreatedBy { get; set; }
-        public ICollection<User> Registries { get; set; }
+        public int? CreatedById { get; set; }
+        public User? CreatedBy { get; set; }
+        public ICollection<User>? Registries { get; set; }
         [Required]
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
     }

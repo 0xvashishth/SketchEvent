@@ -4,6 +4,7 @@ using EventoWeb.MailServices;
 using EventoWeb.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace EventoWeb.Controllers
 {
@@ -48,6 +49,7 @@ namespace EventoWeb.Controllers
         // GET: EventController
         public ActionResult Index()
         {
+            Console.WriteLine("Hello1");
             List<Event> objEventList = _eventRepo.GetAllEvents().ToList();
             return View(objEventList);
         }
@@ -56,7 +58,10 @@ namespace EventoWeb.Controllers
         public ActionResult Details(int id)
         {
             Event objEvent = _eventRepo.GetEventById(id);
-            if(objEvent == null)
+            Debug.Write("Hello");
+            Debug.WriteLine(objEvent.CreatedBy);
+            Debug.WriteLine(objEvent.CreatedById);
+            if (objEvent == null)
             {
                 return RedirectToAction("Index");
             }
@@ -79,18 +84,13 @@ namespace EventoWeb.Controllers
         {
             if (IsLoggedIn() == false)
                 return RedirectToAction("Index");
-
-            User newUsr = new User();
-            newUsr.Name = "Vasudev";
-            newUsr.Email = "vasutemporarylc@gmail.com";
-            newUsr.PhoneNo = "998856644";
-            newUsr.Password = "pass";
-            _userRepo.Add(newUsr);
-            obj.CreatedBy = newUsr;
+            var Userid = Int32.Parse(HttpContext.Request.Cookies["UserId"]);
+            var usr = _userRepo.GetUserById(Userid);
+            obj.CreatedBy = usr;
             obj = _eventRepo.Add(obj);
             try
             {
-                /*emailVerificationMailService objSendVerifyEmail = new emailVerificationMailService(newUsr.PhoneNo, newUsr.Name, newUsr.Email);*/
+                eventCreatedMailService objSendEventCreate = new eventCreatedMailService(usr.Name, obj.Name, "https://vashisht.co", obj.EndDate.ToString(), obj.EndDate.ToString(), obj.Venue, usr.Email);
                 return RedirectToAction("Details", new { Id = obj.EventId });
             }
             catch
@@ -103,7 +103,14 @@ namespace EventoWeb.Controllers
         public ActionResult Edit(int id)
         {
             var objEvent = _eventRepo.GetEventById(id);
-            if (IsOwner(objEvent.CreatedBy.UserId.ToString()) == true && IsLoggedIn())
+            if (objEvent == null)
+            {
+                return RedirectToAction("Index");
+            }
+            Console.WriteLine(objEvent.Name);
+            Console.WriteLine(objEvent.EndDate);
+            Console.WriteLine(objEvent.CreatedById);
+            if (IsOwner(objEvent.CreatedById.ToString()) == true && IsLoggedIn())
                 return View(objEvent);
             else
                 return RedirectToAction("Index");
@@ -114,7 +121,7 @@ namespace EventoWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Event EventChanges)
         {
-            var owner = EventChanges.CreatedBy.UserId.ToString();
+            var owner = EventChanges.CreatedById.ToString();
             if(IsOwner(owner) == true && IsLoggedIn())
                 _eventRepo.Update(EventChanges);
             else
@@ -133,7 +140,7 @@ namespace EventoWeb.Controllers
         public ActionResult Delete(int id)
         {
             var objEvent = _eventRepo.GetEventById(id);
-            if (IsOwner(objEvent.CreatedBy.UserId.ToString()) == true && IsLoggedIn())
+            if (IsOwner(objEvent.CreatedById.ToString()) == true && IsLoggedIn())
                 return View(objEvent);
             else
                 return RedirectToAction("Index");
@@ -145,7 +152,7 @@ namespace EventoWeb.Controllers
         public ActionResult Delete(int id, IFormCollection collection)
         {
             var objEvent = _eventRepo.GetEventById(id);
-            var owner = objEvent.CreatedBy.UserId.ToString();
+            var owner = objEvent.CreatedById.ToString();
             if (IsOwner(owner) == true && IsLoggedIn())
                 _eventRepo.Delete(id);
             else

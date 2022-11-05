@@ -10,7 +10,7 @@ namespace EventoWeb.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IEventRepository _eventRepo;
         private readonly IUserRepository _userRepo;
-        public string erroronsignup="Register First";
+        /*public string erroronsignup="Register First";*/
 
         public HomeController(ILogger<HomeController> logger, IEventRepository _eventRepo, IUserRepository _userRepo)
         {
@@ -21,7 +21,7 @@ namespace EventoWeb.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.erroronSignup = this.erroronsignup;
+            /*ViewBag.erroronSignup = this.erroronsignup;*/
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace EventoWeb.Controllers
             option.Expires = DateTime.Now.AddDays(10);
 
             Response.Cookies.Append("UserName", newUsr.Name.ToString(), option);
-            Response.Cookies.Append("UserEmail", newUsr.Email, option);
+            Response.Cookies.Append("UserEmail", newUsr.Email.ToString(), option);
             Response.Cookies.Append("UserToken", newUsr.Token, option);
             Response.Cookies.Append("UserId", newUsr.UserId.ToString(), option);
             try
@@ -89,7 +89,7 @@ namespace EventoWeb.Controllers
             option.Expires = DateTime.Now.AddDays(10);
 
             Response.Cookies.Append("UserName", user.Name.ToString(), option);
-            Response.Cookies.Append("UserEmail", user.Email, option);
+            Response.Cookies.Append("UserEmail", user.Email.ToString(), option);
             Response.Cookies.Append("UserToken", user.Token, option);
             Response.Cookies.Append("UserId", user.UserId.ToString(), option);
             try
