@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EventoWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221105094354_newdatabase")]
-    partial class newdatabase
+    [Migration("20221105150354_updatednewmigration")]
+    partial class updatednewmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,7 +35,8 @@ namespace EventoWeb.Migrations
                     b.Property<string>("AdditionalNote")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CreatedByUserId")
+                    b.Property<int?>("CreatedById")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDateTime")
@@ -61,7 +62,7 @@ namespace EventoWeb.Migrations
 
                     b.HasKey("EventId");
 
-                    b.HasIndex("CreatedByUserId");
+                    b.HasIndex("CreatedById");
 
                     b.ToTable("Events");
                 });
@@ -114,7 +115,7 @@ namespace EventoWeb.Migrations
                 {
                     b.HasOne("EventoWeb.Models.User", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("CreatedByUserId")
+                        .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

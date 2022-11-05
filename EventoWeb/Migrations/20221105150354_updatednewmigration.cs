@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EventoWeb.Migrations
 {
-    public partial class newdatabase : Migration
+    public partial class updatednewmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,7 +21,7 @@ namespace EventoWeb.Migrations
                     AdditionalNote = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedByUserId = table.Column<int>(type: "int", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -39,8 +39,8 @@ namespace EventoWeb.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsVerified = table.Column<bool>(type: "bit", nullable: true),
+                    Token = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsVerified = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EventId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -55,9 +55,9 @@ namespace EventoWeb.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Events_CreatedByUserId",
+                name: "IX_Events_CreatedById",
                 table: "Events",
-                column: "CreatedByUserId");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_EventId",
@@ -65,9 +65,9 @@ namespace EventoWeb.Migrations
                 column: "EventId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Events_Users_CreatedByUserId",
+                name: "FK_Events_Users_CreatedById",
                 table: "Events",
-                column: "CreatedByUserId",
+                column: "CreatedById",
                 principalTable: "Users",
                 principalColumn: "UserId",
                 onDelete: ReferentialAction.Cascade);
@@ -76,7 +76,7 @@ namespace EventoWeb.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Events_Users_CreatedByUserId",
+                name: "FK_Events_Users_CreatedById",
                 table: "Events");
 
             migrationBuilder.DropTable(
