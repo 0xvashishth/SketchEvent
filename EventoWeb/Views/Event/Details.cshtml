@@ -38,6 +38,16 @@
             @Html.DisplayFor(model => model.EndDate)
         </dd>
     </dl>
+    @{
+    if(@ViewBag.IsLoggedIn == "true" && @ViewBag.IsRegistered == "false")
+    {
+        <button class="btn btn-outline-info p-2" asp-controller="Event" asp-action="EventRegister">Register</button>
+    }
+    else if(@ViewBag.IsLoggedIn == "true" && @ViewBag.IsRegistered == "true")
+    {
+        <div class="p-2">You Are Registered</div>
+    }
+}
 </div>
 <div>
     @{

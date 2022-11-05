@@ -60,9 +60,14 @@ namespace EventoWeb.Controllers
         public ActionResult Details(int id)
         {
             Event objEvent = _eventRepo.GetEventById(id);
-            if (objEvent.CreatedById.ToString() == HttpContext.Request.Cookies["UserId"]?.ToString())
+            if (objEvent.CreatedById.ToString() == HttpContext.Request.Cookies["UserId"]?.ToString() && IsLoggedIn())
             {
                 ViewBag.IsOwner = "true";
+            }
+            if (IsLoggedIn())
+            {
+                ViewBag.IsRegistered = "false";
+                ViewBag.IsLoggedIn = "true";
             }
             if (objEvent == null)
             {
