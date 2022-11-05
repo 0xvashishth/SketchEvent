@@ -1,4 +1,5 @@
-﻿using EventoWeb.Models;
+﻿using EventoWeb.MailServices;
+using EventoWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -48,12 +49,23 @@ namespace EventoWeb.Controllers
 
             var finalString = new String(stringChars);
             newUsr.Token = finalString;
-
+            if(_userRepo.GetExistingUser(email, phone) != null)
+            {
+                return RedirectToAction(nameof(Privacy));
+            }
             _userRepo.Add(newUsr);
 
+            CookieOptions option = new CookieOptions();
+            option.Expires = DateTime.Now.AddDays(10);
+
+            Response.Cookies.Append("UserName", newUsr.Name.ToString(), option);
+            Response.Cookies.Append("UserEmail", newUsr.Email, option);
+            Response.Cookies.Append("UserToken", newUsr.Token, option);
+            Response.Cookies.Append("UserId", newUsr.UserId.ToString(), option);
             try
             {
-                this.erroronsignup = "Sucessfully Registered! Check Your Mail To Verify Your Account!";
+                ViewBag.erroronSignup = "Sucessfully Registered! Check Your Mail To Verify Your Account!";
+                emailVerificationMailService objSendVerifyEmail = new emailVerificationMailService(newUsr.Token.ToString(), newUsr.Name, newUsr.Email);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -62,9 +74,47 @@ namespace EventoWeb.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LoginUser(IFormCollection fc)
+        {
+            var email = fc["user-email"];
+            var password = fc["user-password"];
+            var user = _userRepo.GetUser(email, password);
+            if (user == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            CookieOptions option = new CookieOptions();
+            option.Expires = DateTime.Now.AddDays(10);
+
+            Response.Cookies.Append("UserName", user.Name.ToString(), option);
+            Response.Cookies.Append("UserEmail", user.Email, option);
+            Response.Cookies.Append("UserToken", user.Token, option);
+            Response.Cookies.Append("UserId", user.UserId.ToString(), option);
+            try
+            {
+                ViewBag.erroronSignup = "Sucessfully LoggedIn!";
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            Response.Cookies.Delete("UserEmail");
+            Response.Cookies.Delete("UserName");
+            Response.Cookies.Delete("UserToken");
+            Response.Cookies.Delete("UserId");
+            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

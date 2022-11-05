@@ -42,10 +42,18 @@
             <input class="form-control me-sm-2" type="text" placeholder="Search">
             <button class="my-2 my-sm-0 btn btn-outline-success" type="submit">Search</button>
             </form>*@
-            <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">SignUp</button>
-            &nbsp;&nbsp;
-            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">SignIn</button>
-        
+                @{
+                    if (Context.Request.Cookies["UserName"]?.ToString() == null)
+                {
+                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">SignUp</button>
+                    <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">SignIn</button>
+
+                }
+                else
+                {
+                    <a class="btn btn-outline-danger" asp-controller="Home" asp-action="Logout">Logout</a>
+                }
+         }        
         </div>
       </div>
     </nav>
@@ -100,28 +108,28 @@
 
 <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
+      <form method="post" asp-controller="Home" asp-action="LoginUser">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">SketchEvent SignIn</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
           <div class="mb-3">
             <label for="user-email" class="col-form-label">Email:</label>
-            <input type="email" class="form-control" id="user-email" required />
+            <input type="email" class="form-control" id="user-email" required name="user-email"/>
           </div>
           <div class="mb-3">
             <label for="user-password" class="col-form-label">Password:</label>
-            <input type="password" class="form-control" id="user-password" required />
+            <input type="password" class="form-control" id="user-password" required name="user-password"/>
           </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Signup</button>
+        <button type="submit" class="btn btn-primary">SignIn</button>
       </div>
     </div>
+    </form>
   </div>
 </div>
 

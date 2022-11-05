@@ -4,7 +4,7 @@
     {
         User GetUserById(int id);
         User GetUser(string email, string password);
-        User GetExistingUser(string email);
+        User GetExistingUser(string email, string phone);
         User Add(User User);
         User Update(User UserChanges);
         User Delete(int id);

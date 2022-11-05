@@ -13,9 +13,20 @@
             <div class="col-8 pb-2">
                 <h2 class="text-primary">Sketch Your Event For Free</h2>
             </div>
-            <div class="col-4">
-                <a class="btn btn-primary" asp-controller="Event" asp-action="Create"><i class="bi bi-plus-circle"></i>&nbsp;Create Event</a>
-            </div>
+                @{
+                    if (Context.Request.Cookies["UserName"]?.ToString() == null)
+                {
+                    <div class="col-4">
+                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">SignIn</button>
+                    </div>
+                }
+                else
+                {
+                        <div class="col-4">
+                            <a class="btn btn-primary" asp-controller="Event" asp-action="Create"><i class="bi bi-plus-circle"></i>&nbsp;Create Event</a>
+                        </div>
+                }
+                }
             <hr/>
         </h2>
     <div class="text-center p-3 row d-flex">

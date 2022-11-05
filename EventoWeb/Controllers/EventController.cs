@@ -16,6 +16,35 @@ namespace EventoWeb.Controllers
             this._eventRepo = _eventRepo;
             this._userRepo = _userRepo;
         }
+        public bool IsLoggedIn() {
+            var UserName = HttpContext.Request.Cookies["UserName"];
+            var UserEmail = HttpContext.Request.Cookies["UserEmail"];
+            var UserToken = HttpContext.Request.Cookies["UserToken"];
+            var UserId = HttpContext.Request.Cookies["UserId"];
+            if (UserName == null || UserEmail == null || UserToken == null || UserId == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool IsOwner(string _UserId)
+        {
+            var UserName = HttpContext.Request.Cookies["UserName"];
+            var UserEmail = HttpContext.Request.Cookies["UserEmail"];
+            var UserToken = HttpContext.Request.Cookies["UserToken"];
+            var UserId = HttpContext.Request.Cookies["UserId"];
+            if (UserName == null || UserEmail == null || UserToken == null || UserId == null)
+            {
+                return false;
+            }
+            if(_UserId != UserId)
+            {
+                return false;
+            }
+            return true;
+        }
+
         // GET: EventController
         public ActionResult Index()
         {
@@ -27,14 +56,20 @@ namespace EventoWeb.Controllers
         public ActionResult Details(int id)
         {
             Event objEvent = _eventRepo.GetEventById(id);
-            Console.WriteLine(id);
+            if(objEvent == null)
+            {
+                return RedirectToAction("Index");
+            }
             return View(objEvent);
         }
 
         // GET: EventController/Create
         public ActionResult Create()
         {
-            return View();
+            if(IsLoggedIn() == true)
+                return View();
+            else
+                return RedirectToAction("Index");
         }
 
         // POST: EventController/Create
@@ -42,6 +77,9 @@ namespace EventoWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Event obj)
         {
+            if (IsLoggedIn() == false)
+                return RedirectToAction("Index");
+
             User newUsr = new User();
             newUsr.Name = "Vasudev";
             newUsr.Email = "vasutemporarylc@gmail.com";
@@ -52,7 +90,7 @@ namespace EventoWeb.Controllers
             obj = _eventRepo.Add(obj);
             try
             {
-                emailVerificationMailService objSendVerifyEmail = new emailVerificationMailService(newUsr.PhoneNo, newUsr.Name, newUsr.Email);
+                /*emailVerificationMailService objSendVerifyEmail = new emailVerificationMailService(newUsr.PhoneNo, newUsr.Name, newUsr.Email);*/
                 return RedirectToAction("Details", new { Id = obj.EventId });
             }
             catch
@@ -65,7 +103,10 @@ namespace EventoWeb.Controllers
         public ActionResult Edit(int id)
         {
             var objEvent = _eventRepo.GetEventById(id);
-            return View(objEvent);
+            if (IsOwner(objEvent.CreatedBy.UserId.ToString()) == true && IsLoggedIn())
+                return View(objEvent);
+            else
+                return RedirectToAction("Index");
         }
 
         // POST: EventController/Edit/5
@@ -73,7 +114,11 @@ namespace EventoWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Event EventChanges)
         {
-            _eventRepo.Update(EventChanges);
+            var owner = EventChanges.CreatedBy.UserId.ToString();
+            if(IsOwner(owner) == true && IsLoggedIn())
+                _eventRepo.Update(EventChanges);
+            else
+                return RedirectToAction("Index");
             try
             {
                 return RedirectToAction("Details", new { Id = EventChanges.EventId });
@@ -87,7 +132,11 @@ namespace EventoWeb.Controllers
         // GET: EventController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var objEvent = _eventRepo.GetEventById(id);
+            if (IsOwner(objEvent.CreatedBy.UserId.ToString()) == true && IsLoggedIn())
+                return View(objEvent);
+            else
+                return RedirectToAction("Index");
         }
 
         // POST: EventController/Delete/5
@@ -95,9 +144,15 @@ namespace EventoWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
+            var objEvent = _eventRepo.GetEventById(id);
+            var owner = objEvent.CreatedBy.UserId.ToString();
+            if (IsOwner(owner) == true && IsLoggedIn())
+                _eventRepo.Delete(id);
+            else
+                return RedirectToAction("Index");
             try
             {
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             catch
             {

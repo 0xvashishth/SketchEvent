@@ -27,9 +27,9 @@ namespace EventoWeb.Models
             return User;
         }
 
-        public User GetExistingUser(string email)
+        public User GetExistingUser(string email, string phone)
         {
-            return _db.Users.FirstOrDefault(m => m.Email == email);
+            return _db.Users.FirstOrDefault(m => m.Email == email || m.PhoneNo == phone);
         }
 
         public User GetUser(string email, string password)

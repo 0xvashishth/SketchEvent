@@ -9,9 +9,21 @@
         <div class="col-6">
             <h2>Event List</h2>
         </div>
-        <div class="col-6">
-            <a asp-controller="Event" asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle"></i>&nbsp;Create Event</a>
-        </div>
+
+        @{
+                if (Context.Request.Cookies["UserName"]?.ToString() == null)
+                {
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">SignIn</button>
+                    </div>
+                }
+                else
+                {
+                        <div class="col-6">
+                            <a class="btn btn-primary" asp-controller="Event" asp-action="Create"><i class="bi bi-plus-circle"></i>&nbsp;Create Event</a>
+                        </div>
+                }
+        }
     </div>
 
 </div>
