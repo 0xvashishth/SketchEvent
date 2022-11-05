@@ -35,6 +35,9 @@ namespace EventoWeb.Controllers
             var UserEmail = HttpContext.Request.Cookies["UserEmail"];
             var UserToken = HttpContext.Request.Cookies["UserToken"];
             var UserId = HttpContext.Request.Cookies["UserId"];
+            Console.WriteLine(_UserId);
+            Console.WriteLine(UserEmail);
+            Console.WriteLine(UserId);
             if (UserName == null || UserEmail == null || UserToken == null || UserId == null)
             {
                 return false;
@@ -90,7 +93,7 @@ namespace EventoWeb.Controllers
             obj = _eventRepo.Add(obj);
             try
             {
-                eventCreatedMailService objSendEventCreate = new eventCreatedMailService(usr.Name, obj.Name, "https://vashisht.co", obj.EndDate.ToString(), obj.EndDate.ToString(), obj.Venue, usr.Email);
+                eventMailService objSendEventCreate = new eventMailService(usr.Name, obj.Name, "https://vashisht.co", obj.EndDate.ToString(), obj.EndDate.ToString(), obj.Venue, usr.Email, "created");
                 return RedirectToAction("Details", new { Id = obj.EventId });
             }
             catch
@@ -107,9 +110,6 @@ namespace EventoWeb.Controllers
             {
                 return RedirectToAction("Index");
             }
-            Console.WriteLine(objEvent.Name);
-            Console.WriteLine(objEvent.EndDate);
-            Console.WriteLine(objEvent.CreatedById);
             if (IsOwner(objEvent.CreatedById.ToString()) == true && IsLoggedIn())
                 return View(objEvent);
             else
@@ -121,13 +121,17 @@ namespace EventoWeb.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Event EventChanges)
         {
-            var owner = EventChanges.CreatedById.ToString();
-            if(IsOwner(owner) == true && IsLoggedIn())
-                _eventRepo.Update(EventChanges);
+            var UserId = HttpContext.Request.Cookies["UserId"];
+            var UserName = HttpContext.Request.Cookies["UserName"];
+            var UserEmail = HttpContext.Request.Cookies["UserEmail"];
+            EventChanges.CreatedById = Int32.Parse(UserId);
+            if (IsLoggedIn())
+                EventChanges = _eventRepo.Update(EventChanges);
             else
                 return RedirectToAction("Index");
             try
             {
+                eventMailService objSendEventCreate = new eventMailService(UserName, EventChanges.Name, "https://vashisht.co", EventChanges.EndDate.ToString(), EventChanges.EndDate.ToString(), EventChanges.Venue, UserEmail, "edited");
                 return RedirectToAction("Details", new { Id = EventChanges.EventId });
             }
             catch
@@ -157,12 +161,15 @@ namespace EventoWeb.Controllers
         {
             var objEvent = _eventRepo.GetEventById(id);
             var owner = objEvent.CreatedById.ToString();
+            var UserName = HttpContext.Request.Cookies["UserName"];
+            var UserEmail = HttpContext.Request.Cookies["UserEmail"];
             if (IsOwner(owner) == true && IsLoggedIn())
                 _eventRepo.Delete(id);
             else
                 return RedirectToAction("Index");
             try
             {
+                eventMailService objSendEventCreate = new eventMailService(UserName, objEvent.Name, "https://vashisht.co", objEvent.EndDate.ToString(), objEvent.EndDate.ToString(), objEvent.Venue, UserEmail, "deleted");
                 return RedirectToAction("Index");
             }
             catch

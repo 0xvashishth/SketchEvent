@@ -8,16 +8,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EventoWeb.MailServices
 {
-    public class eventCreatedMailService
+    public class eventMailService
     {
         private string _emailto;
-        public eventCreatedMailService(string _user, string _event_name, string _event_url, string _event_end, string _event_start, string _event_venue, string email)
+        public eventMailService(string _user, string _event_name, string _event_url, string _event_end, string _event_start, string _event_venue, string email, string action)
         {
             _emailto=email;
-            Execute(_user, _event_name, _event_url, _event_end, _event_start, _event_venue).Wait();
+            Execute(_user, _event_name, _event_url, _event_end, _event_start, _event_venue, action).Wait();
         }
 
-        public async Task Execute(string _user, string _event_name, string _event_url, string _event_end, string _event_start, string _event_venue)
+        public async Task Execute(string _user, string _event_name, string _event_url, string _event_end, string _event_start, string _event_venue, string action)
         {
             var _config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             /* var IntExample = MyConfig.GetValue<int>("AppSettings:SampleIntValue");
@@ -51,7 +51,12 @@ namespace EventoWeb.MailServices
                 }*/
             }
         };
-            message.TemplateId = _config.GetValue<string>("ConnectionStrings:eventCreatedTemplateId");
+            if(action == "created") 
+                message.TemplateId = _config.GetValue<string>("ConnectionStrings:eventCreatedTemplateId");
+            else if(action == "edited")
+                message.TemplateId = _config.GetValue<string>("ConnectionStrings:eventEditedTemplateId");
+            else if (action == "deleted")
+                message.TemplateId = _config.GetValue<string>("ConnectionStrings:eventDeletedTemplateId");
 
             dynamicTemplateDataevent dynamictemplatedata = new dynamicTemplateDataevent(_user, _event_name, _event_url, _event_end, _event_start, _event_venue);
             message.SetTemplateData(dynamictemplatedata);
@@ -69,6 +74,7 @@ namespace EventoWeb.MailServices
             Console.WriteLine(response.Headers.ToString());
         }
     }
+
     public class dynamicTemplateDataevent
     {
         public string? user;
