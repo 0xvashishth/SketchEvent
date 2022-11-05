@@ -20,6 +20,7 @@ namespace EventoWeb.Models
         public string? Token { get; set; }
         [Required]
         public bool IsVerified { get; set; } = false;
+        [Required]
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
     }
 }
