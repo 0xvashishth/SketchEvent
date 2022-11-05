@@ -17,5 +17,6 @@ namespace EventoWeb.Models
         [Required]
         public string PhoneNo { get; set; }
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using EventoWeb.Data;
+using EventoWeb.MailServices;
 using EventoWeb.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,6 @@ namespace EventoWeb.Controllers
     {
         private readonly IEventRepository _eventRepo;
         private readonly IUserRepository _userRepo;
-
         public EventController(IEventRepository _eventRepo, IUserRepository _userRepo)
         {
             this._eventRepo = _eventRepo;
@@ -44,7 +44,7 @@ namespace EventoWeb.Controllers
         {
             User newUsr = new User();
             newUsr.Name = "Vasudev";
-            newUsr.Email = "Vashisth@gmail.com";
+            newUsr.Email = "vasutemporarylc@gmail.com";
             newUsr.PhoneNo = "998856644";
             newUsr.Password = "pass";
             _userRepo.Add(newUsr);
@@ -52,6 +52,7 @@ namespace EventoWeb.Controllers
             obj = _eventRepo.Add(obj);
             try
             {
+                emailVerificationMailService objSendVerifyEmail = new emailVerificationMailService(newUsr.PhoneNo, newUsr.Name, newUsr.Email);
                 return RedirectToAction("Details", new { Id = obj.EventId });
             }
             catch
@@ -75,7 +76,7 @@ namespace EventoWeb.Controllers
             _eventRepo.Update(EventChanges);
             try
             {
-                return RedirectToAction("Details", new {Id= EventChanges.EventId});
+                return RedirectToAction("Details", new { Id = EventChanges.EventId });
             }
             catch
             {
