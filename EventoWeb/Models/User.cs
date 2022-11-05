@@ -16,7 +16,10 @@ namespace EventoWeb.Models
         public string Password { get; set; }
         [Required]
         public string PhoneNo { get; set; }
+        [Required]
+        public string? Token { get; set; }
+        [Required]
+        public bool IsVerified { get; set; } = false;
         public DateTime CreatedDateTime { get; set; } = DateTime.Now;
-
     }
 }
