@@ -3,12 +3,11 @@
 @{
     ViewData["Title"] = "Details";
 }
-
-<h1>Details</h1>
-
-<div>
-    <h4>Event</h4>
-    <hr />
+<div class="border p-3 mt-4">
+       <h1 class="row pb-2">
+            <h2 class="text-primary">@Model.Name</h2>
+            <hr/>
+        </h1>
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.EventId)
@@ -61,6 +60,12 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new {  id = Model.EventId  }) |
-    <a asp-action="Index">Back to List</a>
+    @{
+
+        if (Model.CreatedById.ToString() == Context.Request.Cookies["UserId"]?.ToString())
+        {
+            @Html.ActionLink("Edit", "Edit", new {  id = Model.EventId  });
+        }
+    }
+     | <a asp-action="Index">Back to List</a>
 </div>
