@@ -17,8 +17,8 @@
 
 # About :computer:
  
-- Now a days, events and sessions are very frequent and we don't have time to create it every time and `we can save some GBs in this world` so I have created the solution for the same.
-- This is event management Website.
+- Now a days, events and sessions are very frequent and we don't have time to create. And Ig we have time then the website or page should take time to create and consume some MBs, but I come up with a solution and created the Event Management Website called Sketchevent.
+- We know there are several other websites available for doing the same but most of them have some premium services and don't have flexible platforms. So, I want to create a platform where everyone can come and manage their events with all features including messaging and mailing.
 - It is Free For everyone
 
 ---
