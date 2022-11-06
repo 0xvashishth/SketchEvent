@@ -11,7 +11,8 @@
 
 ---
 
-- :link: Link Of SketchEvent Website: [link]([https://github.com/vasu-1/SketchEvent](https://sketchevent.azurewebsites.net/))
+- :link: Link Of SketchEvent Website(Custom Domain GoDaddy): https://sketchevent.us/
+- :link: Link Of SketchEvent Website: [link](https://sketchevent.azurewebsites.net/)
 
 ---
 
