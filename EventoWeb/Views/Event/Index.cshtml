@@ -7,7 +7,7 @@
 <div class="border p-3 mt-4">
     <div class="row pt-4">
         <div class="col-6">
-            <h1>Event List</h1>
+            <h1>Events List</h1>
         </div>
 
         @{
@@ -27,62 +27,55 @@
     </div>
 
 
-<table class="table table-responsive table-bordered table-striped" style="width:100%">
-    <thead>
-        <tr>
-            <th class="text-light">
-                Event Name
-            </th>
- @*           <th class="text-light">
-                Event Description
-            </th>*@
-            <th class="text-light">
-                Event Venue
-            </th>
-            <th class="text-light">
-                StartDate
-            </th>
-            <th class="text-light">
-                EndDate
-            </th>
-            <th class="text-light">
-                View
-            </th>
-        </tr>
-    </thead>
-    <tbody>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
         @foreach (var obj in Model)
         {
-            <tr class="bg-dark">
-                <td class="text-light">
-                    @obj.Name
-                </td>
-                @*<td class="text-light">
-                    @obj.Description
-                </td>*@
-                <td class="text-light">
-                    @obj.Venue
-                </td>
-                <td class="text-light">
-                    @obj.StartDate
-                </td>
-                <td class="text-light">
-                    @obj.EndDate
-                </td>
-                @*<td class="text-light">
-                    @if(obj.CreatedBy == null)
-                    {
-                    }
-                    else{
-                        @obj.CreatedBy
-                    }
-                </td>*@
-                <td>
-                    <a class="btn btn-success" asp-controller="Event" asp-action="Details" asp-route-id="@obj.EventId" >View</a>
-                </td>
-            </tr>
+            <div class="col">
+                <div class="card border-info h-100">
+                  @*<img src="..." class="card-img-top" alt="...">*@
+                  <div class="card-body">
+                    <h5 class="card-title">@obj.Name</h5>
+                    <p class="card-text">
+                        <table>
+                            <tbody>
+                            <tr>
+                            <td>
+                                📍 Venue :
+                            </td>
+                            <td>
+                                @obj.Venue
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                                📅 Start At :
+                            </td>
+                            <td>
+                                @obj.StartDate
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                                📅 End At :
+                            </td>
+                            <td>
+                                @obj.EndDate
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pt-3">
+                            <a class="border p-1"  asp-controller="Event" asp-action="Details" asp-route-id="@obj.EventId">View More</a>
+                        </td>
+                        </tr>
+                        
+                            </tbody>
+                        </table>
+                    </p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Created On @obj.CreatedDateTime</small>
+                  </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
-</div>
-
+    </div>

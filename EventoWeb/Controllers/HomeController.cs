@@ -22,7 +22,9 @@ namespace EventoWeb.Controllers
         public IActionResult Index()
         {
             /*ViewBag.erroronSignup = this.erroronsignup;*/
-            return View();
+            List<Event> objEventList = _eventRepo.GetAllEvents().ToList();
+            /*ViewBag.EventList = objEventList;*/
+            return View(objEventList);
         }
 
         [HttpPost]
