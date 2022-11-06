@@ -27,19 +27,10 @@ namespace EventoWeb.Controllers
             return View(objEventList);
         }
 
-        [HttpPost]
+/*        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateUser(IFormCollection fc)
+        public ActionResult CreateUser(User objuser)
         {
-            var name = fc["user-name"];
-            var email = fc["user-email"];
-            var password = fc["user-password"];
-            var phone = fc["user-phone"];
-            User newUsr = new User();
-            newUsr.Name = name;
-            newUsr.Email = email;
-            newUsr.PhoneNo = phone;
-            newUsr.Password = password;
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             var stringChars = new char[12];
             var random = new Random();
@@ -50,31 +41,55 @@ namespace EventoWeb.Controllers
             }
 
             var finalString = new String(stringChars);
-            newUsr.Token = finalString;
-            if(_userRepo.GetExistingUser(email, phone) != null)
+            objuser.Token = finalString;
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Privacy));
-            }
-            _userRepo.Add(newUsr);
+                if (_userRepo.GetExistingUser(objuser.Email, objuser.PhoneNo) != null)
+                {
+                    return RedirectToAction(nameof(Privacy));
+                }
+                _userRepo.Add(objuser);
 
-            CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.Now.AddDays(10);
+                CookieOptions option = new CookieOptions();
+                option.Expires = DateTime.Now.AddDays(10);
 
-            Response.Cookies.Append("UserName", newUsr.Name.ToString(), option);
-            Response.Cookies.Append("UserEmail", newUsr.Email.ToString(), option);
-            Response.Cookies.Append("UserToken", newUsr.Token, option);
-            Response.Cookies.Append("UserId", newUsr.UserId.ToString(), option);
-            try
-            {
-                ViewBag.erroronSignup = "Sucessfully Registered! Check Your Mail To Verify Your Account!";
-                emailVerificationMailService objSendVerifyEmail = new emailVerificationMailService(newUsr.Token.ToString(), newUsr.Name, newUsr.Email);
-                return RedirectToAction(nameof(Index));
+                Response.Cookies.Append("UserName", objuser.Name.ToString(), option);
+                Response.Cookies.Append("UserEmail", objuser.Email.ToString(), option);
+                Response.Cookies.Append("UserToken", objuser.Token, option);
+                Response.Cookies.Append("UserId", objuser.UserId.ToString(), option);
+                try
+                {
+                    ViewBag.erroronSignup = "Sucessfully Registered! Check Your Mail To Verify Your Account!";
+                    *//*emailVerificationMailService objSendVerifyEmail = new emailVerificationMailService(objuser.Token.ToString(), objuser.Name, objuser.Email);
+                    *//*return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
-        }
+            *//* var name = fc["user-name"];
+             var email = fc["user-email"];
+             var password = fc["user-password"];
+             var phone = fc["user-phone"];
+             User newUsr = new User();
+             newUsr.Name = name;
+             newUsr.Email = email;
+             newUsr.PhoneNo = phone;
+             newUsr.Password = password;
+             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+             var stringChars = new char[12];
+             var random = new Random();
+
+             for (int i = 0; i < stringChars.Length; i++)
+             {
+                 stringChars[i] = chars[random.Next(chars.Length)];
+             }
+
+             var finalString = new String(stringChars);
+             newUsr.Token = finalString;*//*
+             return View();
+        }*/
 
         [HttpPost]
         [ValidateAntiForgeryToken]

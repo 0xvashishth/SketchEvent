@@ -60,20 +60,24 @@ namespace EventoWeb.Controllers
         public ActionResult Details(int id)
         {
             Event objEvent = _eventRepo.GetEventById(id);
-            if (objEvent.CreatedById.ToString() == HttpContext.Request.Cookies["UserId"]?.ToString() && IsLoggedIn())
+            if(objEvent != null)
             {
-                ViewBag.IsOwner = "true";
+                if (objEvent.CreatedById.ToString() == HttpContext.Request.Cookies["UserId"]?.ToString() && IsLoggedIn())
+                {
+                    ViewBag.IsOwner = "true";
+                }
+                if (IsLoggedIn())
+                {
+                    ViewBag.IsRegistered = "false";
+                    ViewBag.IsLoggedIn = "true";
+                }
+                if (objEvent == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                return View(objEvent);
             }
-            if (IsLoggedIn())
-            {
-                ViewBag.IsRegistered = "false";
-                ViewBag.IsLoggedIn = "true";
-            }
-            if (objEvent == null)
-            {
-                return RedirectToAction("Index");
-            }
-            return View(objEvent);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: EventController/Create
@@ -92,19 +96,25 @@ namespace EventoWeb.Controllers
         {
             if (IsLoggedIn() == false)
                 return RedirectToAction("Index");
-            var Userid = Int32.Parse(HttpContext.Request.Cookies["UserId"]);
-            var usr = _userRepo.GetUserById(Userid);
-            obj.CreatedBy = usr;
-            obj = _eventRepo.Add(obj);
-            try
+            if (ModelState.IsValid)
             {
-                /*eventMailService objSendEventCreate = new eventMailService(usr.Name, obj.Name, "https://vashisht.co", obj.EndDate.ToString(), obj.EndDate.ToString(), obj.Venue, usr.Email, "created");
-                */return RedirectToAction("Details", new { Id = obj.EventId });
+                var Userid = Int32.Parse(HttpContext.Request.Cookies["UserId"]);
+                var usr = _userRepo.GetUserById(Userid);
+                obj.CreatedBy = usr;
+                obj.CreatedById = Userid;
+                obj = _eventRepo.Add(obj);
+                try
+                {
+                    eventMailService objSendEventCreate = new eventMailService(usr.Name, obj.Name, "https://vashisht.co", obj.EndDate.ToString(), obj.EndDate.ToString(), obj.Venue, usr.Email, "created");
+
+                    return RedirectToAction("Details", new { Id = obj.EventId });
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: EventController/Edit/5
@@ -136,8 +146,8 @@ namespace EventoWeb.Controllers
                 return RedirectToAction("Index");
             try
             {
-                /*eventMailService objSendEventCreate = new eventMailService(UserName, EventChanges.Name, "https://vashisht.co", EventChanges.EndDate.ToString(), EventChanges.EndDate.ToString(), EventChanges.Venue, UserEmail, "edited");
-                */return RedirectToAction("Details", new { Id = EventChanges.EventId });
+                eventMailService objSendEventCreate = new eventMailService(UserName, EventChanges.Name, "https://vashisht.co", EventChanges.EndDate.ToString(), EventChanges.EndDate.ToString(), EventChanges.Venue, UserEmail, "edited");
+                return RedirectToAction("Details", new { Id = EventChanges.EventId });
             }
             catch
             {
@@ -174,8 +184,8 @@ namespace EventoWeb.Controllers
                 return RedirectToAction("Index");
             try
             {
-                /*eventMailService objSendEventCreate = new eventMailService(UserName, objEvent.Name, "https://vashisht.co", objEvent.EndDate.ToString(), objEvent.EndDate.ToString(), objEvent.Venue, UserEmail, "deleted");
-                */return RedirectToAction("Index");
+                eventMailService objSendEventCreate = new eventMailService(UserName, objEvent.Name, "https://vashisht.co", objEvent.EndDate.ToString(), objEvent.EndDate.ToString(), objEvent.Venue, UserEmail, "deleted");
+                return RedirectToAction("Index");
             }
             catch
             {

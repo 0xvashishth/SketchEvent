@@ -53,13 +53,13 @@
                 @{
                     if (Context.Request.Cookies["UserName"]?.ToString() == null)
                 {
-                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">SignUp</button>
+                    <a class="btn btn-outline-info" asp-controller="User" asp-action="Create">SignUp</a>
                     <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">SignIn</button>
 
                 }
                 else
                 {
-                    <a class="btn btn-outline-danger" asp-controller="Home" asp-action="Logout">Logout</a>
+                    <a class="btn btn-danger" asp-controller="Home" asp-action="Logout">Logout</a>
                 }
          }        
         </div>
@@ -79,7 +79,7 @@
     </footer>
 
     @*signup/in modal*@
- <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+ @*<div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <form method="post" asp-controller="Home" asp-action="CreateUser">
       <div class="modal-content">
@@ -89,20 +89,24 @@
       </div>
       <div class="modal-body">
           <div class="mb-3">
-            <label for="user-name" class="col-form-label">Name:</label>
-            <input type="text" class="form-control user-name" id="user-name" name="user-name">
+           <label asp-for="Name">Name:</label>
+            <input asp-for="Name" class="form-control" required/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+          <div class="mb-3">
+            <label asp-for="Email">Email:</label>
+            <input asp-for="Email" class="form-control" required/>
+            <span asp-validation-for="Email" class="text-danger"></span>
           </div>
           <div class="mb-3">
-            <label for="user-email" class="col-form-label">Email:</label>
-            <input type="email" class="form-control user-email" id="user-email" name="user-email">
+            <label asp-for="PhoneNo">Phone No:</label>
+            <input asp-for="PhoneNo" class="form-control" required/>
+            <span asp-validation-for="PhoneNo" class="text-danger"></span>
           </div>
           <div class="mb-3">
-            <label for="user-phone" class="col-form-label">Phone No:</label>
-            <input type="text" class="form-control user-phone" id="user-phone" name="user-phone">
-          </div>
-          <div class="mb-3">
-            <label for="user-password" class="col-form-label">Password:</label>
-            <input type="password" class="form-control user-password" id="user-password" name="user-password"></input>
+            <label asp-for="Password">Password:</label>
+            <input asp-for="Password" class="form-control" required/>
+            <span asp-validation-for="Password" class="text-danger"></span>
           </div>
       </div>
       <div class="modal-footer">
@@ -112,7 +116,7 @@
     </div>
     </form>
   </div>
-</div>
+</div>*@
 
 <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
