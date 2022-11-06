@@ -11,7 +11,7 @@
 
 ---
 
-- :link: Link Of SketchEvent Website: [link](https://github.com/vasu-1/SketchEvent)
+- :link: Link Of SketchEvent Website: [link]([https://github.com/vasu-1/SketchEvent](https://sketchevent.azurewebsites.net/))
 
 ---
 
