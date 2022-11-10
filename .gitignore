@@ -264,7 +264,7 @@ ServiceFabricBackup/
 *.rptproj.bak
 
 # SQL Server files
-*.mdf
+Evento_log.mdf
 *.ldf
 *.ndf
 
