@@ -1,0 +1,138 @@
+﻿@model IEnumerable<Event>
+@{
+    ViewData["Title"] = "Home Page";
+    List<Event> objEvents = ViewBag.EventList;
+}
+
+<div class="p-3 mt-5">
+<h1 class="text-primary text-dark">Welcome To SketchEvent</h1>
+</div>
+@*<div class="d-none d-md-block">
+        <a class="btn btn-primary" asp-controller="Event" asp-action="Index"><i class="bi bi-list"></i>&nbsp;View All Event</a>
+</div>*@
+<div class="border p-3 mt-3">
+        <h2 class="row pb-2">
+            <div class="col-8 pb-2 mt-3">
+                <h2 class="text-primary">Upcoming Events</h2>
+            </div>
+                @{
+                    if (Context.Request.Cookies["UserName"]?.ToString() == null)
+                {
+                    <div class="col-4">
+                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">SignIn</button>
+                    </div>
+                }
+                else
+                {
+                        <div class="col-4 mt-3 pb-2">
+                            <a class="btn btn-primary" asp-controller="Event" asp-action="Create"><i class="bi bi-plus-circle"></i>&nbsp;Create Event</a>
+                        </div>
+                }
+                }
+            <hr/>
+        </h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
+        @foreach (var obj in Model)
+        {
+            <div class="col">
+                <div class="card border-info h-100">
+                  @*<img src="..." class="card-img-top" alt="...">*@
+                  <div class="card-body">
+                    <h5 class="card-title">@obj.Name</h5>
+                    <p class="card-text">
+                        <table>
+                            <tbody>
+                            <tr>
+                            <td>
+                                📍 Venue :
+                            </td>
+                            <td>
+                                @obj.Venue
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                                📅 Start At :
+                            </td>
+                            <td>
+                                @obj.StartDate
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                                📅 End At :
+                            </td>
+                            <td>
+                                @obj.EndDate
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pt-3">
+                            <a class="border p-1"  asp-controller="Event" asp-action="Details" asp-route-id="@obj.EventId">View More</a>
+                        </td>
+                        </tr>
+                        
+                            </tbody>
+                        </table>
+                    </p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Created On @obj.CreatedDateTime</small>
+                  </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="row ms-5 me-5 mt-3">
+        <a class="btn btn-primary" asp-controller="Event" asp-action="Index"><i class="bi bi-list"></i>&nbsp;View All Event</a>
+    </div>
+
+</div>
+
+<div class="border p-3 mt-5">
+    <h2 class="row pb-2">
+    <div class="col-8 pb-2 mt-3">
+                <h2 class="text-primary">SketchEvent Features !</h2>
+            </div>
+            <hr />
+        </h2>
+        <div class="row row-cols-1 row-cols-md-4 row-cols-sm-2 g-4">
+        <div class="col">
+        <div class="card h-100 border-success mb-3">
+          <div class="card-header">Evento Feature #1</div>
+          <div class="card-body">
+            <h4 class="card-title">Create Unlimited Events</h4>
+            <p class="card-text">Evento provides unlimited events on creating the account in Evento.</p>
+          </div>
+        </div>
+        </div>
+        <div class="col">
+        <div class="card h-100 border-danger mb-3">
+          <div class="card-header">Evento Feature #2</div>
+          <div class="card-body">
+            <h4 class="card-title">Get All Registrations In One Click</h4>
+            <p class="card-text">You will be able to access all the registration that are done in your respective events.</p>
+          </div>
+        </div>
+        </div>
+        <div class="col">
+        <div class="card h-100 border-success mb-3">
+          <div class="card-header">Evento Feature #3</div>
+          <div class="card-body">
+            <h4 class="card-title">Get Email Service</h4>
+            <p class="card-text">Send Emails to those who are registered in the events with just one click.You can configure the message according to the mail.</p>
+          </div>
+        </div>
+        </div>
+        <div class="col">
+        <div class="card h-100 border-danger mb-3">
+          <div class="card-header">Evento Feature #4</div>
+          <div class="card-body">
+            <h4 class="card-title">Much More</h4>
+            <p class="card-text">Get all other features and get other features on signing up to the Evento.</p>
+          </div>
+        </div>
+        </div>
+    </div>
+</div>
