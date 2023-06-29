@@ -1,0 +1,81 @@
+﻿@model IEnumerable<Event>
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<div class="border p-3 mt-4">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h1>Events List</h1>
+        </div>
+
+        @{
+                if (Context.Request.Cookies["UserName"]?.ToString() == null)
+                {
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">SignIn</button>
+                    </div>
+                }
+                else
+                {
+                        <div class="col-6">
+                            <a class="btn btn-primary" asp-controller="Event" asp-action="Create"><i class="bi bi-plus-circle"></i>&nbsp;Create Event</a>
+                        </div>
+                }
+        }
+    </div>
+
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
+        @foreach (var obj in Model)
+        {
+            <div class="col">
+                <div class="card border-info h-100">
+                  @*<img src="..." class="card-img-top" alt="...">*@
+                  <div class="card-body">
+                    <h5 class="card-title">@obj.Name</h5>
+                    <p class="card-text">
+                        <table>
+                            <tbody>
+                            <tr>
+                            <td>
+                                📍 Venue :
+                            </td>
+                            <td>
+                                @obj.Venue
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                                📅 Start At :
+                            </td>
+                            <td>
+                                @obj.StartDate
+                            </td>
+                            </tr>
+                            <tr>
+                            <td>
+                                📅 End At :
+                            </td>
+                            <td>
+                                @obj.EndDate
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pt-3">
+                            <a class="border p-1"  asp-controller="Event" asp-action="Details" asp-route-id="@obj.EventId">View More</a>
+                        </td>
+                        </tr>
+                        
+                            </tbody>
+                        </table>
+                    </p>
+                  </div>
+                  <div class="card-footer">
+                    <small class="text-muted">Created On @obj.CreatedDateTime</small>
+                  </div>
+                </div>
+            </div>
+        }
+    </div>

@@ -1,0 +1,51 @@
+﻿@model Event
+
+@{
+    ViewData["Title"] = "Create Event";
+}
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <h2 class="row pb-2">
+            <h2 class="text-primary">Create Event</h2>
+            <hr/>
+        </h2>
+        <div class="mb-3">
+            <label asp-for="Name">Event Name</label>
+            <input asp-for="Name" class="form-control" required/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description">Event Description&nbsp;(MarkDown Supported)</label>
+            <textarea asp-for="Description" class="form-control" required></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Venue">Event Venue</label>
+            <input asp-for="Venue" class="form-control" required/>
+            <span asp-validation-for="Venue" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="AdditionalNote">Event Additional Note</label>
+            <input asp-for="AdditionalNote" class="form-control" />
+            <span asp-validation-for="AdditionalNote" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="StartDate">Event StartDate</label>
+            <input asp-for="StartDate" class="form-control" required/>
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="EndDate">Event EndDate</label>
+            <input asp-for="EndDate" class="form-control" required/>
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+            <span asp-validation-for="CreatedDateTime" class="text-danger"></span>
+            <span asp-validation-for="CreatedById" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary" type="submit" style="width:150px">submit</button>
+        </div>
+    </div>
+    <a asp-controller="Event" asp-action="Index">Back to Events</a>
+</form>
+
