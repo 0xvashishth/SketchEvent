@@ -78,7 +78,7 @@ namespace EventoWeb.Controllers
 
         // POST: UserController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
+/*        [ValidateAntiForgeryToken]*/
         public ActionResult Create(User newUsr)
         {
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
